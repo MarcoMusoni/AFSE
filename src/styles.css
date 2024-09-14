@@ -1,0 +1,11 @@
+body {
+  max-width: 90%;
+  margin: 0 auto;
+  background-color: rgba(7, 15, 43, 0.9);
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
