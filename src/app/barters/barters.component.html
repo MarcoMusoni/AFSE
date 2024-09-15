@@ -1,1 +1,9 @@
-<p>barters works!</p>
+<button type="button" (click)="newBarter()">New Offer</button>
+<ul>
+    @for (barter of barters(); track $index) {
+        <li>
+            <app-barter [barter]="barter" />
+        </li>
+    }
+</ul>
+<app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)"/>

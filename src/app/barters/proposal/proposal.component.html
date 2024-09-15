@@ -1,0 +1,17 @@
+<div>
+    <label for="owned">Owned</label>
+    <select id="owned">
+        @for (hero of owned(); track $index) {
+            <option (click)="addToOut(hero)" [value]="hero.id">{{ hero.name }}</option>
+        }
+    </select>
+    <label for="missing">Missing</label>
+    <select id="missing">
+        @for (hero of missing(); track $index) {
+            <option (click)="addToIn(hero)" [value]="hero.id">{{ hero.name }}</option>
+        }
+    </select>
+</div>
+<app-barter [barter]="{in: in(), out: out()}"/>
+<button type="button" (click)="publishProposal()">Publish</button>
+<button type="button" (click)="cancelProposal()">Cancel</button>
