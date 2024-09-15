@@ -15,8 +15,7 @@ export class UserDeleteComponent {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  returnReference = input<OperationType>('CREATE_USER');
-  deleteSig = output<OperationType>();
+  deleteSig = output<void>();
 
   password: string = '';
 
@@ -27,7 +26,7 @@ export class UserDeleteComponent {
     .subscribe({
       next: (res) => {
         console.log(res.status + ': User Deleted');
-        this.deleteSig.emit(this.returnReference());
+        this.deleteSig.emit();
       }
     });
 

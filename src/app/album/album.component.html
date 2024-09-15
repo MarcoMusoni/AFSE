@@ -1,0 +1,16 @@
+<nav>
+    @if(isAuth()) {
+        <button type="button" (click)="navToUser('CREATE_USER')">Sign In</button>
+        <button type="button" (click)="navToLogin()">Log In</button>
+        <button type="button" (click)="navToUser('CREATE_USER')">Trade</button>
+        <button type="button" (click)="navToUser('CREATE_USER')">Shop</button>
+        <div (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
+    } @else {
+        <button type="button" (click)="logout()">Log Out</button>
+        <button type="button" (click)="navToUser('EDIT_USER')">Edit profile</button>
+        <button type="button" (click)="navToTrade()">Trade</button>
+        <button type="button" (click)="navToShop()">Shop</button>
+        <div (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
+    }
+</nav>
+<app-grid [cards]="cards()"/>

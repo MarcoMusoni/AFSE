@@ -1,0 +1,12 @@
+@if(hero()) {
+    <div (click)="navToHero(hero())">
+        <img [src]="hero()?.imageURL" alt="N/A">
+        <h2>{{hero()?.name}}</h2>
+        <h4>You own: {{hero()?.duplicates}}</h4>
+        <p>{{hero()?.description}}</p>
+    </div>
+} @else {
+    <div>
+        <img src="empty-spot.jpg">
+    </div>
+}

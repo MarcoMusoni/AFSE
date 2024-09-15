@@ -1,0 +1,14 @@
+<table>
+    <tbody>
+        @for (item of cards(); track $index) {
+            <tr>
+                <td>
+                    <app-card [hero]="item.l"/>
+                </td>
+                <td>
+                    <app-card [hero]="item.r"/>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

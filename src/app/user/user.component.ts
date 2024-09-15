@@ -2,11 +2,10 @@ import {
   Component,
   DestroyRef,
   inject,
-  input,
   OnInit,
   signal,
 } from '@angular/core';
-import { HeroRes } from '../model/hero-res';
+import { HeroNameRes } from '../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +24,7 @@ export class UserComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  options = signal<HeroRes[] | undefined>(undefined);
+  options = signal<HeroNameRes[] | undefined>(undefined);
   operation = signal<OperationType>('CREATE_USER');
   username: string = '';
   email: string = '';
@@ -34,7 +33,7 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     const sub = this.httpClient
-      .get<{ heroes: HeroRes[] }>('http://localhost:3000/heroes/names')
+      .get<{ heroes: HeroNameRes[] }>('http://localhost:3000/heroes/names')
       .pipe(map((response) => response.heroes))
       .subscribe({
         next: (heroes) => {
@@ -72,7 +71,6 @@ export class UserComponent implements OnInit {
     this.operation.set('DELETE_USER');
   }
 
-  hideDelete(operation: OperationType) {
-    this.operation.set(operation);
+  hideDelete() {
   }
 }

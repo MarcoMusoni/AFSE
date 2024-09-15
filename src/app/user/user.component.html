@@ -19,6 +19,6 @@
             <button type="button" (click)="showDelete()">Delete User</button>
         </form>
     } @else {
-        <app-user-delete [returnReference]="operation()" (deleteSig)="hideDelete($event)"/>
+        <app-user-delete (deleteSig)="hideDelete()"/>
     }
 </div>

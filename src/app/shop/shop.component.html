@@ -1,0 +1,7 @@
+<div>
+    <app-credit [classList]="class5()" [amount]="5" (toggleSig)="onAmountSelected($event)"  />
+    <app-credit [classList]="class10()" [amount]="10" (toggleSig)="onAmountSelected($event)" />
+    <app-credit [classList]="class20()" [amount]="20" (toggleSig)="onAmountSelected($event)" />
+</div>
+<button type="button" (click)="buyCredits()">Buy Credits</button>
+<app-pack />
