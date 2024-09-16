@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { CardComponent } from '../grid/card/card.component';
 import { HeroRes } from '../model/hero-res';
 import { DetailsComponent } from './details/details.component';
 import { HttpClient } from '@angular/common/http';

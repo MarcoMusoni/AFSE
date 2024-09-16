@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { CardComponent } from './card/card.component';
 import { HeroRes } from '../model/hero-res';
 
 @Component({

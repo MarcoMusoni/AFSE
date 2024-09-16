@@ -1,0 +1,21 @@
+nav {
+    height: 50px;
+    background-color: rgb(146, 144, 195);
+    border-radius: 10px;
+}
+
+p {
+    margin-left: 10px;
+}
+
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+button {
+    height: 40px;
+    width: 100px;
+    margin: 20px;
+}

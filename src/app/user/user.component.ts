@@ -2,6 +2,7 @@ import {
   Component,
   DestroyRef,
   inject,
+  input,
   OnInit,
   signal,
 } from '@angular/core';
@@ -11,7 +12,6 @@ import { map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { UserReq } from '../model/user-req';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
-import { OperationType } from '../model/operation-type';
 
 @Component({
   selector: 'app-user',
@@ -24,8 +24,11 @@ export class UserComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
+  isSignIn = input.required<boolean>();
+
   options = signal<HeroNameRes[] | undefined>(undefined);
-  operation = signal<OperationType>('CREATE_USER');
+  deleteView = signal<boolean>(false);
+
   username: string = '';
   email: string = '';
   password: string = '';
@@ -46,7 +49,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  submitUserForm() {
+  signIn() {
     const user: UserReq = {
       name: this.username,
       email: this.email,
@@ -66,11 +69,33 @@ export class UserComponent implements OnInit {
       sub.unsubscribe();
     });
   }
+  
+  editUser() {
+    const user: UserReq = {
+      name: this.username,
+      email: this.email,
+      password: this.password,
+      favouriteSuper: this.hero,
+    };
 
-  showDelete() {
-    this.operation.set('DELETE_USER');
+    const sub = this.httpClient
+      .put('http://localhost:3000/user', user)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+      });
+
+    this.destroyRef.onDestroy(() => {
+      sub.unsubscribe();
+    });
   }
 
+  showDelete() {
+    this.deleteView.set(true);
+  }
+  
   hideDelete() {
+    this.deleteView.set(false);
   }
 }

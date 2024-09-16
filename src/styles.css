@@ -1,7 +1,7 @@
 body {
-  max-width: 90%;
+  max-width: 60%;
   margin: 0 auto;
-  background-color: rgba(7, 15, 43, 0.9);
+  background-color: rgb(7, 15, 43, 0.85);
 }
 
 .content-center {

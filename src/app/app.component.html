@@ -1,1 +1,23 @@
-<app-album />
+@switch (view().mode) {
+    @case ('ALBUM') {
+        <app-album (viewSig)="changeView($event)"/>
+    }
+    @case ('BARTERS') {
+        <app-barters />
+    }
+    @case ('HERO') {
+        <app-hero />
+    }
+    @case ('LOGIN') {
+        <app-login (viewSig)="changeView($event)"/>
+    }
+    @case ('SHOP') {
+        <app-shop />
+    }
+    @case ('SIGNUP') {
+        <app-signup />
+    }
+    @case ('USER') {
+        <app-user [isSignIn]="view().data"/>
+    }
+}

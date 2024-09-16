@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { HeroRes } from '../model/hero-res';
+import { HeroRes } from '../../model/hero-res';
 
 @Component({
   selector: 'app-card',

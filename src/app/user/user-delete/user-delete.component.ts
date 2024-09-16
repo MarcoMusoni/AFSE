@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { OperationType } from '../../model/operation-type';
 
 @Component({
   selector: 'app-user-delete',

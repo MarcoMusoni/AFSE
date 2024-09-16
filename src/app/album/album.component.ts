@@ -3,14 +3,15 @@ import {
   DestroyRef,
   inject,
   OnInit,
+  output,
   signal,
 } from '@angular/core';
 import { SessionService } from '../session.service';
-import { OperationType } from '../model/operation-type';
 import { GridComponent } from '../grid/grid.component';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { HeroRes } from '../model/hero-res';
+import { ViewSignalData } from '../model/view-mode';
 
 @Component({
   selector: 'app-album',
@@ -38,6 +39,8 @@ export class AlbumComponent implements OnInit {
     { l: null, r: null },
     { l: null, r: null },
   ]);
+
+  viewSig = output<ViewSignalData>();
 
   private getCards() {
     const sub = this.httpClient
@@ -89,20 +92,29 @@ export class AlbumComponent implements OnInit {
     }
   }
 
-  navToUser(op: OperationType) {
-    // route to app-user with provided op type
+  navToUser(isSignIn: boolean) {
+    this.viewSig.emit({
+      mode: 'USER',
+      data: isSignIn
+    });
   }
 
   navToLogin() {
-    // route to app-login
+    this.viewSig.emit({
+      mode: 'LOGIN'
+    })
   }
 
   navToShop() {
-    throw new Error('Method not implemented.');
+    this.viewSig.emit({
+      mode: 'SHOP'
+    });
   }
 
   navToTrade() {
-    throw new Error('Method not implemented.');
+    this.viewSig.emit({
+      mode: 'BARTERS'
+    });
   }
 
   logout() {
