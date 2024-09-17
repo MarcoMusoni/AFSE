@@ -1,0 +1,17 @@
+div {
+    margin-top: 20px;
+    background-color: #9290C3;
+    height: 50px;
+    border-radius: 10px;
+}
+
+div label {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+div button {
+    margin: 10px;
+    height: 40px;
+    width: 80px;
+}

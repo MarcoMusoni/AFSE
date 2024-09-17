@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, input, output, signal } from '@angular/core';
 import { HeroNameRes } from '../../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../session.service';
@@ -21,20 +21,34 @@ export class ProposalComponent {
 
   cancelSig = output<{ in: number[]; out: number[] }>();
 
-  in = signal<HeroNameRes[]>([]);
-  out = signal<HeroNameRes[]>([]);
+  in = signal<HeroNameRes[]>([
+    {
+      id: 0,
+      name: 'Cards you will get',
+      imageURL: 'empty-spot.jpg',
+    },
+  ]);
+  out = signal<HeroNameRes[]>([
+    {
+      id: 0,
+      name: 'Cards you will trade',
+      imageURL: 'empty-spot.jpg',
+    },
+  ]);
 
   private httpClient = inject(HttpClient);
   private session = inject(SessionService);
   private destroyRef = inject(DestroyRef);
 
+  uid = computed(() => this.session.getData()?.uid || '');
+
   addToIn(hero: HeroNameRes) {
-    this.in().push(hero);
+    this.in().unshift(hero);
     this.newInSig.emit(hero.id);
   }
 
   addToOut(hero: HeroNameRes) {
-    this.out().push(hero);
+    this.out().unshift(hero);
     this.newOutSig.emit(hero.id);
   }
 

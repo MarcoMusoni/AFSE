@@ -5,7 +5,7 @@
             @for (barter of barters(); track $index) {
                 <hr>
                 <li>
-                    <app-barter [barter]="barter" (acceptedSig)="removeAcceptedOffer($event)"/>
+                    <app-barter [acceptEnabled]="true" [barter]="barter" (acceptedSig)="removeAcceptedOffer($event)"/>
                 </li>
             }
         </ul>
@@ -13,4 +13,5 @@
     @if (showNewOffer()) {
         <app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)"/>
     }
+    <a routerLink="">< Back</a>
 </main>

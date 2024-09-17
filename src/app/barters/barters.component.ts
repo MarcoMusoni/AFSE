@@ -12,11 +12,12 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { SessionService } from '../session.service';
 import { ProposalComponent } from './proposal/proposal.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-barters',
   standalone: true,
-  imports: [BarterComponent, ProposalComponent],
+  imports: [BarterComponent, ProposalComponent, RouterLink],
   templateUrl: './barters.component.html',
   styleUrl: './barters.component.css',
 })
@@ -30,9 +31,14 @@ export class BartersComponent implements OnInit {
   owned = signal<HeroNameRes[]>([]);
   showNewOffer = signal<boolean>(false);
 
-  private defaultEntries = {
-    uid: '',
-    id: '',
+  private defaultEntries: {
+    uid: string;
+    id: string;
+    in: HeroNameRes[];
+    out: HeroNameRes[];
+  } = {
+    uid: 'abc',
+    id: 'abc',
     in: [
       {
         id: 0,
@@ -42,9 +48,8 @@ export class BartersComponent implements OnInit {
     ],
     out: [
       {
-        uid: '',
         id: 0,
-        name: 'Cards you will get',
+        name: 'Cards you will trade',
         imageURL: 'empty-spot.jpg',
       },
     ],
@@ -57,7 +62,7 @@ export class BartersComponent implements OnInit {
       in: HeroNameRes[];
       out: HeroNameRes[];
     }[]
-  >([]);
+  >([this.defaultEntries]);
 
   ngOnInit(): void {
     let bids: {
@@ -110,7 +115,6 @@ export class BartersComponent implements OnInit {
             result.push({ uid: bid.uid, id: bid.id, in: newIn, out: newOut });
           });
           this.barters.set(result);
-          this.barters().push(this.defaultEntries);
         },
       });
 
@@ -162,7 +166,9 @@ export class BartersComponent implements OnInit {
   }
 
   removeAcceptedOffer(barterId: string) {
-    let newList = this.barters().filter((barter) => barterId !== barter.id);
+    let newList = this.barters().filter(
+      (barter) => barterId !== barter.id || barter.id === ''
+    );
     this.barters.set(newList);
   }
 }

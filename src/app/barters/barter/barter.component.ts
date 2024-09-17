@@ -22,6 +22,8 @@ export class BarterComponent {
     out: HeroNameRes[];
   }>();
 
+  acceptEnabled = input.required<boolean>();
+
   acceptedSig = output<string>();
 
   acceptOffer() {

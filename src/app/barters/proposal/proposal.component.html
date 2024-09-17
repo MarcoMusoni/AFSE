@@ -1,4 +1,4 @@
-<div>
+<div class="content-center">
     <label for="owned">Owned</label>
     <select id="owned">
         @for (hero of owned(); track $index) {
@@ -12,6 +12,8 @@
         }
     </select>
 </div>
-<app-barter [barter]="{in: in(), out: out()}"/>
-<button type="button" (click)="publishProposal()">Publish</button>
-<button type="button" (click)="cancelProposal()">Cancel</button>
+<app-barter [acceptEnabled]="false" [barter]="{uid: uid(), id: '', in: in(), out: out()}"/>
+<div class="content-center">
+    <button type="button" (click)="publishProposal()">Publish</button>
+    <button type="button" (click)="cancelProposal()">Cancel</button>
+</div>

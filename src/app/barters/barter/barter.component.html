@@ -13,9 +13,11 @@
             }
         </td>
     </tr>
-    <tr>
-        <td colspan="2">
-            <button type="button" (click)="acceptOffer()">Accept</button>
-        </td>
-    </tr>
+    @if(acceptEnabled()) {
+        <tr>
+            <td colspan="2">
+                <button type="button" (click)="acceptOffer()">Accept</button>
+            </td>
+        </tr>
+    }
 </table>
