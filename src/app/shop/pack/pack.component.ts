@@ -3,11 +3,12 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { SessionService } from '../../session.service';
 import { CreditPacksRes } from '../../model/credit-packs-res';
 import { SessionData } from '../../model/session-data';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pack',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './pack.component.html',
   styleUrl: './pack.component.css',
 })
@@ -38,7 +39,7 @@ export class PackComponent {
 
 
   newAmount(op: number) {
-    let newAmount = this.amount() + op;
+    let newAmount = this.amount() + op < 0 ? 0 : this.amount() + op;
     this.amount.set(newAmount);
   }
 }

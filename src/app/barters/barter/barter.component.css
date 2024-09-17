@@ -1,0 +1,15 @@
+table {
+    text-align: center;
+}
+
+img {
+    border-radius: 10px;
+    margin: 10px;
+    width: 50;
+    height: 75;
+}
+
+button {
+    width: 100px;
+    height: 50px;
+}

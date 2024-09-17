@@ -1,7 +1,10 @@
-<div>
+<div class="content-center">
     <img src="pack.jpg" alt="...">
+</div>
+<div id="buttons">
     <button (click)="newAmount(-1)" type="button">-</button>
     <p>{{ amount() }}</p>
     <button (click)="newAmount(+1)" type="button">+</button>
-    <button type="button" (click)="buyPacks()">Buy Packs</button>
 </div>
+<button id="buyPacks" type="button" (click)="buyPacks()">Buy Packs</button><br>
+<a routerLink="">< Back</a>

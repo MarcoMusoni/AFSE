@@ -1,10 +1,16 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { BarterComponent } from './barter/barter.component';
 import { HeroNameRes } from '../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { SessionService } from '../session.service';
-import { HeroRes } from '../model/hero-res';
 import { ProposalComponent } from './proposal/proposal.component';
 
 @Component({
@@ -22,9 +28,32 @@ export class BartersComponent implements OnInit {
   all = signal<HeroNameRes[]>([]);
   missing = signal<HeroNameRes[]>([]);
   owned = signal<HeroNameRes[]>([]);
+  showNewOffer = signal<boolean>(false);
+
+  private defaultEntries = {
+    uid: '',
+    id: '',
+    in: [
+      {
+        id: 0,
+        name: 'Cards you will get',
+        imageURL: 'empty-spot.jpg',
+      },
+    ],
+    out: [
+      {
+        uid: '',
+        id: 0,
+        name: 'Cards you will get',
+        imageURL: 'empty-spot.jpg',
+      },
+    ],
+  };
 
   barters = signal<
     {
+      uid: string;
+      id: string;
       in: HeroNameRes[];
       out: HeroNameRes[];
     }[]
@@ -32,24 +61,33 @@ export class BartersComponent implements OnInit {
 
   ngOnInit(): void {
     let bids: {
+      uid: string;
+      id: string;
       in: number[];
       out: number[];
     }[] = [];
 
     let result: {
+      uid: string;
+      id: string;
       in: HeroNameRes[];
       out: HeroNameRes[];
     }[] = [];
 
     const barters = this.httpClient
-      .get<{ offers: { in: number[]; out: number[] }[] }>(
-        'http://localhost:3000/barters/' + this.session.getData()?.uid
-      )
+      .get<{
+        offers: { uid: string; id: string; in: number[]; out: number[] }[];
+      }>('http://localhost:3000/barters/' + this.session.getData()?.uid)
       .pipe(map((res) => res.offers))
       .subscribe({
         next: (offers) => {
           offers.forEach((offer) =>
-            bids.push({ in: offer.in, out: offer.out })
+            bids.push({
+              uid: offer.uid,
+              id: offer.id,
+              in: offer.in,
+              out: offer.out,
+            })
           );
         },
       });
@@ -69,14 +107,14 @@ export class BartersComponent implements OnInit {
               if (bid.in.includes(hero.id)) newIn.push(hero);
               if (bid.out.includes(hero.id)) newOut.push(hero);
             });
-            result.push({ in: newIn, out: newOut });
+            result.push({ uid: bid.uid, id: bid.id, in: newIn, out: newOut });
           });
+          this.barters.set(result);
+          this.barters().push(this.defaultEntries);
         },
       });
 
     this.destroyRef.onDestroy(() => names.unsubscribe);
-
-    this.barters.set(result);
   }
 
   newBarter() {
@@ -98,6 +136,7 @@ export class BartersComponent implements OnInit {
       });
 
     this.destroyRef.onDestroy(() => sub.unsubscribe);
+    this.showNewOffer.set(true);
   }
 
   removedFromOwned(id: number) {
@@ -112,11 +151,18 @@ export class BartersComponent implements OnInit {
 
   restoreLists(event: { in: number[]; out: number[] }) {
     this.all()
-    .filter(hero => event.in.includes(hero.id))
-    .forEach(hero => this.missing().push(hero));
-    
+      .filter((hero) => event.in.includes(hero.id))
+      .forEach((hero) => this.missing().push(hero));
+
     this.all()
-    .filter(hero => event.out.includes(hero.id))
-    .forEach(hero => this.owned().push(hero));
+      .filter((hero) => event.out.includes(hero.id))
+      .forEach((hero) => this.owned().push(hero));
+
+    this.showNewOffer.set(false);
+  }
+
+  removeAcceptedOffer(barterId: string) {
+    let newList = this.barters().filter((barter) => barterId !== barter.id);
+    this.barters.set(newList);
   }
 }

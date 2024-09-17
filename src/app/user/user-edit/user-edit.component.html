@@ -1,0 +1,23 @@
+<div class="content-center">
+    <form (ngSubmit)="editUser()">
+        <label for="username">Username</label>
+        <input id="username" type="text" [(ngModel)]="username" name="username">
+        <label for="email">Email</label>
+        <input id="email" type="email" [(ngModel)]="email" name="email">
+        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password">
+        <label for="hero">Favourite Hero</label>
+        <select id="hero" name="hero" [(ngModel)]="hero">
+            @for (option of options(); track option.id) {
+                <option [value]="option.id">
+                    {{ option.name }}
+                </option>
+            }
+        </select>
+        <button type="submit">Confirm</button>
+        <button type="button" (click)="showDelete()">Delete User</button>
+        @if(deleteView()) {
+            <app-user-delete (deleteSig)="hideDelete($event)" />
+        }
+    </form>
+</div>

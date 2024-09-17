@@ -1,30 +1,23 @@
-import {
-  Component,
-  DestroyRef,
-  inject,
-  input,
-  OnInit,
-  signal,
-} from '@angular/core';
-import { HeroNameRes } from '../model/hero-name-res';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
-import { FormsModule } from '@angular/forms';
-import { UserReq } from '../model/user-req';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { UserDeleteComponent } from './user-delete/user-delete.component';
+import { HttpClient } from '@angular/common/http';
+import { HeroNameRes } from '../../model/hero-name-res';
+import { map } from 'rxjs';
+import { UserReq } from '../../model/user-req';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user',
+  selector: 'app-user-edit',
   standalone: true,
-  imports: [FormsModule, UserDeleteComponent],
-  templateUrl: './user.component.html',
-  styleUrl: './user.component.css',
+  imports: [UserDeleteComponent, FormsModule],
+  templateUrl: './user-edit.component.html',
+  styleUrl: './user-edit.component.css',
 })
-export class UserComponent implements OnInit {
+export class UserEditComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
-
-  isSignIn = input.required<boolean>();
+  private router = inject(Router);
 
   options = signal<HeroNameRes[] | undefined>(undefined);
   deleteView = signal<boolean>(false);
@@ -49,27 +42,6 @@ export class UserComponent implements OnInit {
     });
   }
 
-  signIn() {
-    const user: UserReq = {
-      name: this.username,
-      email: this.email,
-      password: this.password,
-      favouriteSuper: this.hero,
-    };
-
-    const sub = this.httpClient
-      .post('http://localhost:3000/user', user)
-      .subscribe({
-        next: (res) => {
-          console.log(res);
-        },
-      });
-
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
-    });
-  }
-  
   editUser() {
     const user: UserReq = {
       name: this.username,
@@ -79,10 +51,12 @@ export class UserComponent implements OnInit {
     };
 
     const sub = this.httpClient
-      .put('http://localhost:3000/user', user)
+      .put('http://localhost:3000/user', user, { observe: 'response' })
       .subscribe({
         next: (res) => {
-          console.log(res);
+          if (res.ok) {
+            this.router.navigateByUrl('');
+          }
         },
       });
 
@@ -94,8 +68,11 @@ export class UserComponent implements OnInit {
   showDelete() {
     this.deleteView.set(true);
   }
-  
-  hideDelete() {
+
+  hideDelete(deleted: boolean) {
     this.deleteView.set(false);
+    if (deleted) {
+      this.router.navigateByUrl('logout');
+    }
   }
 }

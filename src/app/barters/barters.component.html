@@ -1,9 +1,16 @@
-<button type="button" (click)="newBarter()">New Offer</button>
-<ul>
-    @for (barter of barters(); track $index) {
-        <li>
-            <app-barter [barter]="barter" />
-        </li>
+<main class="content-center">
+    @if (!showNewOffer()) {
+        <button type="button" (click)="newBarter()">New Offer</button>
+        <ul>
+            @for (barter of barters(); track $index) {
+                <hr>
+                <li>
+                    <app-barter [barter]="barter" (acceptedSig)="removeAcceptedOffer($event)"/>
+                </li>
+            }
+        </ul>
     }
-</ul>
-<app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)"/>
+    @if (showNewOffer()) {
+        <app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)"/>
+    }
+</main>

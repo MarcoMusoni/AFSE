@@ -1,0 +1,41 @@
+img {
+    width: 200px;
+    height: 200px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#buttons button {
+    width: 50px;
+    font-size: 16pt;
+}
+
+p {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 20pt;
+    font-weight: bold;
+    text-align: center;
+    width: 25px;
+}
+
+#buyPacks {
+    margin-top: 20px;
+    height: 50px;
+    margin-left: 346px;
+    width: 75px;
+}
+
+a {
+    text-decoration: none;
+    color: #9290C3;
+    border-color: #9290C3;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    padding: 10px;
+}

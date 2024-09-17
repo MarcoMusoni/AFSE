@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../session.service';
 import { SessionData } from '../model/session-data';
 import { ViewSignalData } from '../model/view-mode';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ export class LoginComponent {
   private httpClient = inject(HttpClient);
   private session = inject(SessionService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   username: string = '';
   email: string = '';
@@ -23,11 +25,7 @@ export class LoginComponent {
 
   errMsg = signal<string>('');
 
-  viewSig = output<ViewSignalData>();
-
   login() {
-    this.navToAlbum();
-
     const sub = this.httpClient
       .get<{ uid: string }>('http://localhost:3000/user', {
         observe: 'response',
@@ -37,33 +35,31 @@ export class LoginComponent {
           password: this.password,
         },
       })
-      .subscribe((res) => {
-        switch (res.status) {
-          case 200:
-            let newData: SessionData = {
-              ...this.session.getData(),
-              uid: res.body?.uid,
-            };
-            this.session.saveData(newData);
-            this.errMsg.set('');
-            this.navToAlbum();
-            break;
-          case 400:
-            this.errMsg.set('Missing Data');
-            break;
-          case 401:
-            this.errMsg.set('Invalid password');
-            break;
-          case 404:
-            this.errMsg.set('User not found');
-            break;
-        }
+      .subscribe({
+        next: (res) => {
+          let newData: SessionData = {
+            ...this.session.getData(),
+            uid: res.body?.uid,
+          };
+          this.session.saveData(newData);
+          this.errMsg.set('');
+          this.router.navigateByUrl('');
+        },
+        error: (err) => {
+          switch (err.status) {
+            case 400:
+              this.errMsg.set('Missing Data');
+              break;
+            case 401:
+              this.errMsg.set('Invalid password');
+              break;
+            case 404:
+              this.errMsg.set('User not found');
+              break;
+          }
+        },
       });
 
     this.destroyRef.onDestroy(() => sub.unsubscribe());
-  }
-
-  navToAlbum() {
-    this.viewSig.emit({ mode: 'ALBUM' });
   }
 }

@@ -10,7 +10,7 @@ import { Component, input, output, signal } from '@angular/core';
 export class CreditComponent {
   
   amount = input.required<5 | 10 | 20>();
-  selected = signal<boolean>(false);
+  selected = input.required<string>();
   toggleSig = output<number>();
 
   toggle() {

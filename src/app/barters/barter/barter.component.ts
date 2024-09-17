@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, DestroyRef, inject, input, output } from '@angular/core';
 import { HeroNameRes } from '../../model/hero-name-res';
+import { HttpClient } from '@angular/common/http';
+import { SessionService } from '../../session.service';
 
 @Component({
   selector: 'app-barter',
@@ -9,5 +11,39 @@ import { HeroNameRes } from '../../model/hero-name-res';
   styleUrl: './barter.component.css',
 })
 export class BarterComponent {
-  barter = input.required<{in: HeroNameRes[], out: HeroNameRes[]}>();
+  private httpClient = inject(HttpClient);
+  private destroyRef = inject(DestroyRef);
+  private session = inject(SessionService);
+
+  barter = input.required<{
+    uid: string;
+    id: string;
+    in: HeroNameRes[];
+    out: HeroNameRes[];
+  }>();
+
+  acceptedSig = output<string>();
+
+  acceptOffer() {
+    const sub = this.httpClient
+      .post(
+        'http://locahost:3000/barters/' + this.barter().id,
+        {
+          uidIn: this.session.getData()?.uid,
+          uidOut: this.barter().uid,
+          in: this.barter().in,
+          out: this.barter().out,
+        },
+        { observe: 'response' }
+      )
+      .subscribe({
+        next: (res) => {
+          if (res.ok) {
+            this.acceptedSig.emit(this.barter().id);
+          }
+        },
+      });
+    
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
+  }
 }

@@ -15,9 +15,9 @@ import { PackComponent } from './pack/pack.component';
 })
 export class ShopComponent implements OnInit {
 
-  class5 = signal<string[]>([]);
-  class10 = signal<string[]>([]);
-  class20 = signal<string[]>([]);
+  class5 = signal<string>('default');
+  class10 = signal<string>('default');
+  class20 = signal<string>('default');
 
   private amount: number = 0;
   private httpClient = inject(HttpClient);
@@ -42,33 +42,33 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.class5.set(['default']);
-    this.class10.set(['default']);
-    this.class20.set(['default']);
+    this.class5.set('default');
+    this.class10.set('default');
+    this.class20.set('default');
   }
 
   onAmountSelected(amountSelected: number) {
     this.amount = amountSelected;
     switch (amountSelected) {
       case 5:
-        this.class5.set(['selected']);
-        this.class10.set(['default']);
-        this.class20.set(['default']);
+        this.class5.set('selected');
+        this.class10.set('default');
+        this.class20.set('default');
         break;
       case 10:
-        this.class10.set(['selected']);
-        this.class5.set(['default']);
-        this.class20.set(['default']);
+        this.class10.set('selected');
+        this.class5.set('default');
+        this.class20.set('default');
         break;
       case 20:
-        this.class20.set(['selected']);
-        this.class10.set(['default']);
-        this.class5.set(['default']);
+        this.class20.set('selected');
+        this.class10.set('default');
+        this.class5.set('default');
         break;
       default:
-        this.class5.set(['default']);
-        this.class10.set(['default']);
-        this.class20.set(['default']);
+        this.class5.set('default');
+        this.class10.set('default');
+        this.class20.set('default');
     }
   }
 }

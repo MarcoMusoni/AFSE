@@ -1,16 +1,16 @@
 <nav class="content-center">
     @if(!isAuth()) {
-        <button type="button" (click)="navToUser(true)">Sign In</button>
-        <button type="button" (click)="navToLogin()">Log In</button>
-        <button type="button" (click)="navToUser(true)">Trade</button>
-        <button type="button" (click)="navToUser(true)">Shop</button>
-        <div class="content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
+        <a routerLink="user/signup">Sign In</a>
+        <a routerLink="login">Login</a>
+        <a routerLink="user/signup">Trade</a> 
+        <a routerLink="user/signup">Shop</a> 
+        <div class="pack-counter content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
     } @else {
-        <button type="button" (click)="logout()">Log Out</button>
-        <button type="button" (click)="navToUser(false)">Edit profile</button>
-        <button type="button" (click)="navToTrade()">Trade</button>
-        <button type="button" (click)="navToShop()">Shop</button>
-        <div class="content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
+        <a routerLink="logout">Logout</a>
+        <a routerLink="user/edit">Edit Profile</a>
+        <a routerLink="barters">Trade</a> 
+        <a routerLink="shop">Shop</a>
+        <div class="pack-counter content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
     }
 </nav>
 <app-grid [cards]="cards()"/>

@@ -1,9 +1,9 @@
 import {
   Component,
+  computed,
   DestroyRef,
   inject,
   OnInit,
-  output,
   signal,
 } from '@angular/core';
 import { SessionService } from '../session.service';
@@ -11,12 +11,12 @@ import { GridComponent } from '../grid/grid.component';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { HeroRes } from '../model/hero-res';
-import { ViewSignalData } from '../model/view-mode';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-album',
   standalone: true,
-  imports: [GridComponent],
+  imports: [GridComponent, RouterLink],
   templateUrl: './album.component.html',
   styleUrl: './album.component.css',
 })
@@ -26,7 +26,9 @@ export class AlbumComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
-  public isAuth = signal<boolean>(false);
+  public isAuth = computed(() => {
+    return this.session.isAuth();
+  });
 
   packNumber = signal<number>(0);
 
@@ -39,8 +41,6 @@ export class AlbumComponent implements OnInit {
     { l: null, r: null },
     { l: null, r: null },
   ]);
-
-  viewSig = output<ViewSignalData>();
 
   private getCards() {
     const sub = this.httpClient
@@ -72,7 +72,6 @@ export class AlbumComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isAuth.set(this.session.isAuth());
     if (this.isAuth()) {
       this.getCards();
       const sub = this.httpClient
@@ -90,36 +89,6 @@ export class AlbumComponent implements OnInit {
         sub.unsubscribe();
       });
     }
-  }
-
-  navToUser(isSignIn: boolean) {
-    this.viewSig.emit({
-      mode: 'USER',
-      data: isSignIn
-    });
-  }
-
-  navToLogin() {
-    this.viewSig.emit({
-      mode: 'LOGIN'
-    })
-  }
-
-  navToShop() {
-    this.viewSig.emit({
-      mode: 'SHOP'
-    });
-  }
-
-  navToTrade() {
-    this.viewSig.emit({
-      mode: 'BARTERS'
-    });
-  }
-
-  logout() {
-    this.session.logout();
-    this.isAuth.set(false);
   }
 
   openPacks() {
