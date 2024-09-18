@@ -28,9 +28,10 @@ export class BarterComponent {
 
   acceptOffer() {
     const sub = this.httpClient
-      .post(
-        'http://locahost:3000/barters/' + this.barter().id,
+      .put(
+        'http://locahost:3000/cards/' + this.barter().id,
         {
+          bid: this.barter().id,
           uidIn: this.session.getData()?.uid,
           uidOut: this.barter().uid,
           in: this.barter().in,
