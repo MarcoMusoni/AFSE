@@ -1,10 +1,8 @@
 # AFSE
 
-## TODO LIST
-1. Guardare corso: chiamate http con angular<br>
-Quanto devo separare BE e FE? <br>
-L'intero stack di ogni funzionalità finisce tutto annegato a sua componente? Potrei dover balzare angular nel caso
-2. [0.1.0] Implementare creazione utente
+## To Start
+  1. `npm install`
+  2. `npm run start`
 
 ## About Angular
 
