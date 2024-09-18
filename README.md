@@ -1,5 +1,9 @@
 # AFSE
 
+PWM project
+
+Author: Marco Musoni
+
 ## To Start
   1. `npm install`
   2. `npm run start`
