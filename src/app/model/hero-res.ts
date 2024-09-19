@@ -4,7 +4,7 @@ export interface HeroRes {
     name: string
     description: string
     imageURL: string
-    comics: string[]
-    events: string[]
-    series: string[]
+    comics?: string[]
+    events?: string[]
+    series?: string[]
 }

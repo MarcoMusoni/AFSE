@@ -1,5 +1,5 @@
 export interface UserReq {
-    name: string,
+    username: string,
     email: string,
     password: string
     favouriteSuper: number

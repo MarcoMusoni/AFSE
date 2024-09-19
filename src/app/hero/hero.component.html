@@ -1,7 +1,11 @@
-<h1>{{hero().name}}</h1>
-<h3>You own: {{hero().duplicates}}</h3>
-<button type="button" (click)="sellCard()">Sell</button>
-<p>{{hero().description}}</p>
-<app-details title="Series" [items]="hero().series"/>
-<app-details title="Events" [items]="hero().events"/>
-<app-details title="Comics" [items]="hero().comics"/>
+<div class="content-center">
+    <h1>{{hero().name}}</h1>
+    <img [src]="hero().imageURL" />
+    <h3>You own: {{ amount }}</h3>
+    <button type="button" (click)="sellCard()">Sell</button>
+    <p>{{hero().description}}</p>
+    <app-details title="Series" [items]="hero().series || []"/>
+    <app-details title="Events" [items]="hero().events || []"/>
+    <app-details title="Comics" [items]="hero().comics || []"/>
+</div>
+<a class="content-center" routerLink="">< Back</a>

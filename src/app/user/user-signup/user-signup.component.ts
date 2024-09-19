@@ -44,7 +44,7 @@ export class UserSignupComponent implements OnInit {
 
   signUp() {
     const user: UserReq = {
-      name: this.username,
+      username: this.username,
       email: this.email,
       password: this.password,
       favouriteSuper: this.hero,

@@ -42,7 +42,11 @@ a:hover {
     margin: 20px;
 }
 
-.pack-counter:hover {
+.counter:hover {
     background-color: rgba(27, 26, 85, 0.5);
     border-radius: 10px;
+}
+
+.counter {
+    margin-right: 10px;
 }

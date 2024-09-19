@@ -3,7 +3,6 @@ import { Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionService } from '../session.service';
 import { SessionData } from '../model/session-data';
-import { ViewSignalData } from '../model/view-mode';
 import { Router } from '@angular/router';
 
 @Component({
@@ -27,7 +26,7 @@ export class LoginComponent {
 
   login() {
     const sub = this.httpClient
-      .get<{ uid: string }>('http://localhost:3000/user', {
+      .get<{ uid: string, packs: number, credits: number }>('http://localhost:3000/user', {
         observe: 'response',
         headers: {
           username: this.username,
@@ -38,8 +37,9 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           let newData: SessionData = {
-            ...this.session.getData(),
             uid: res.body?.uid,
+            credits: res.body?.credits,
+            packs: res.body?.packs
           };
           this.session.saveData(newData);
           this.errMsg.set('');

@@ -44,7 +44,7 @@ export class UserEditComponent implements OnInit {
 
   editUser() {
     const user: UserReq = {
-      name: this.username,
+      username: this.username,
       email: this.email,
       password: this.password,
       favouriteSuper: this.hero,

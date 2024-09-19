@@ -24,7 +24,8 @@ export class SessionService {
   public initSessionData(): void {
     let init: SessionData = {
       uid: undefined,
-      credits: 0
+      credits: 0,
+      packs: 0
     };
     this.storeSessionData(init);
   }

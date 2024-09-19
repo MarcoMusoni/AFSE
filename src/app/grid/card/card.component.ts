@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { HeroRes } from '../../model/hero-res';
+import { Router } from '@angular/router';
+import { HeroService } from '../../hero/hero.service';
 
 @Component({
   selector: 'app-card',
@@ -9,9 +11,14 @@ import { HeroRes } from '../../model/hero-res';
   styleUrl: './card.component.css',
 })
 export class CardComponent {
+
+  private router = inject(Router);
+  private heroSrv = inject(HeroService);
+
   hero = input.required<HeroRes | null>();
 
   navToHero(hero: HeroRes | null) {
-    // route to app-hero
+    this.heroSrv.setHero(hero);
+    this.router.navigateByUrl('hero');
   }
 }

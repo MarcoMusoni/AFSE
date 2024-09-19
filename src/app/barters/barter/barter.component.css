@@ -5,8 +5,9 @@ table {
 img {
     border-radius: 10px;
     margin: 10px;
-    width: 50;
-    height: 75;
+    width: 20;
+    height: 45;
+    scale: 0.5;
 }
 
 button {

@@ -1,16 +1,16 @@
 <nav class="content-center">
     @if(!isAuth()) {
-        <a routerLink="user/signup">Sign In</a>
+        <a routerLink="user/signup">Sign Up</a>
         <a routerLink="login">Login</a>
         <a routerLink="user/signup">Trade</a> 
         <a routerLink="user/signup">Shop</a> 
-        <div class="pack-counter content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
     } @else {
         <a routerLink="logout">Logout</a>
         <a routerLink="user/edit">Edit Profile</a>
         <a routerLink="barters">Trade</a> 
         <a routerLink="shop">Shop</a>
-        <div class="pack-counter content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packNumber() }}</p></div>
     }
+    <div class="counter content-center" (click)="openPacks()"><img src="pack.jpg"><p>x{{ packs }}</p></div>
+    <div class="content-center"><img src="credits.jpg"><p>x{{ credits() }}</p></div>
 </nav>
 <app-grid [cards]="cards()"/>
