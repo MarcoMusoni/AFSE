@@ -7,6 +7,7 @@ import { ShopComponent } from './shop/shop.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
 import { LogoutComponent } from './logout/logout.component';
+import { UnpackComponent } from './unpack/unpack.component';
 
 export const routes: Routes = [
   {
@@ -40,5 +41,9 @@ export const routes: Routes = [
   {
     path: 'logout',
     component: LogoutComponent
+  },
+  {
+    path: 'unpack',
+    component: UnpackComponent
   }
 ];

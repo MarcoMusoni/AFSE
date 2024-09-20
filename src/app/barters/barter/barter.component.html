@@ -16,7 +16,7 @@
                 }
             </td>
         </tr>
-        @if(acceptEnabled()) {
+        @if(acceptEnabled() && barter().in[0].id !== 0) {
             <tr>
                 <td class="acceptBtn" colspan="2">
                     <a routerLink="#" (click)="acceptOffer()">Accept</a>

@@ -12,7 +12,8 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { SessionService } from '../session.service';
 import { ProposalComponent } from './proposal/proposal.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { HeroRes } from '../model/hero-res';
 
 @Component({
   selector: 'app-barters',
@@ -25,6 +26,7 @@ export class BartersComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private session = inject(SessionService);
+  private router = inject(Router);
 
   all = signal<HeroNameRes[]>([]);
   missing = signal<HeroNameRes[]>([]);
@@ -114,8 +116,7 @@ export class BartersComponent implements OnInit {
             });
             result.push({ uid: bid.uid, id: bid.id, in: newIn, out: newOut });
           });
-          if(result.length === 0)
-            result.push(this.defaultEntries);
+          if (result.length === 0) result.push(this.defaultEntries);
           this.barters.set(result);
         },
       });
@@ -125,10 +126,10 @@ export class BartersComponent implements OnInit {
 
   newBarter() {
     const sub = this.httpClient
-      .get<{ heroes: number[] }>(
+      .get<HeroRes[]>(
         'http://localhost:3000/heroes/' + this.session.getData()?.uid
       )
-      .pipe(map((res) => res.heroes))
+      .pipe(map((res) => res.map(hero => hero.id)))
       .subscribe({
         next: (heroes) => {
           this.all().forEach((hero) => {
@@ -172,5 +173,6 @@ export class BartersComponent implements OnInit {
       (barter) => barterId !== barter.id || barter.id === ''
     );
     this.barters.set(newList);
+    this.router.navigateByUrl('');
   }
 }

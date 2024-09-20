@@ -1,15 +1,9 @@
-import {
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, computed, DestroyRef, inject, OnInit } from '@angular/core';
 import { SessionService } from '../session.service';
 import { GridComponent } from '../grid/grid.component';
 import { HttpClient } from '@angular/common/http';
 import { HeroRes } from '../model/hero-res';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SessionData } from '../model/session-data';
 
 @Component({
@@ -23,13 +17,14 @@ export class AlbumComponent implements OnInit {
   private session = inject(SessionService);
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
 
   public isAuth = computed(() => {
     return this.session.isAuth();
   });
 
   packs!: number;
-  
+
   public credits = computed(() => this.session.getData()?.credits);
   public cards = computed(() => this.getCards());
 
@@ -55,11 +50,28 @@ export class AlbumComponent implements OnInit {
         )
         .subscribe({
           next: (heroes) => {
-            for (let i = 0; i < heroes.length / 2; i++) {
-              result.unshift({
-                l: heroes[i * 2],
-                r: heroes[i * 2 + 1].id !== 0 ? heroes[i * 2 + 1] : null,
-              });
+            if(heroes.length !== 0 && result[0].l === null) {
+              result.pop();
+              result.pop();
+            }
+            let l: HeroRes | null = null; 
+            let r: HeroRes | null = null;
+            for (let i = 0; i < heroes.length; i++) {
+              if(i % 2 === 0) {
+                l = heroes[i];
+                if(i === heroes.length - 1) {
+                  result.push({
+                    l: l,
+                    r: null
+                  });
+                } 
+              } else {
+                r = heroes[i];
+                result.push({
+                  l: l,
+                  r: r
+                });
+              }
             }
           },
         });
@@ -91,7 +103,7 @@ export class AlbumComponent implements OnInit {
             };
             this.packs = newSession.packs || 0;
             this.session.saveData(newSession);
-            this.getCards();
+            this.router.navigateByUrl('unpack');
           }
         },
       });

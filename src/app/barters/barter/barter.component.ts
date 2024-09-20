@@ -9,7 +9,7 @@ import {
 import { HeroNameRes } from '../../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../session.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-barter',
@@ -33,6 +33,8 @@ export class BarterComponent {
   acceptEnabled = input.required<boolean>();
 
   acceptedSig = output<string>();
+
+  private router = inject(Router);
 
   acceptOffer() {
     const sub = this.httpClient
@@ -58,5 +60,6 @@ export class BarterComponent {
       });
 
     this.destroyRef.onDestroy(() => sub.unsubscribe());
+
   }
 }

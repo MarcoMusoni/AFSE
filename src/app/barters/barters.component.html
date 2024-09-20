@@ -9,9 +9,9 @@
                 </li>
             }
         </ul>
+        <a routerLink="">< Back</a>
     }
     @if (showNewOffer()) {
-        <app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)"/>
+        <app-proposal [missing]="missing()" [owned]="owned()" (newInSig)="removeFromMissing($event)" (newOutSig)="removedFromOwned($event)" (cancelSig)="restoreLists($event)" />
     }
-    <a routerLink="">< Back</a>
 </main>
