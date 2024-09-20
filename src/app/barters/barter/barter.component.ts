@@ -1,12 +1,13 @@
-import { Component, DestroyRef, inject, input, output } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { HeroNameRes } from '../../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../session.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-barter',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './barter.component.html',
   styleUrl: './barter.component.css',
 })

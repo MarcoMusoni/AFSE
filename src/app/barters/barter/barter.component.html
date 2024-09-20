@@ -1,23 +1,27 @@
 <table>
-    <tr>
-        <td>
-            <h3>Out</h3>
-            @for (hero of barter().out; track $index) {
-                <img [src]="hero.imageURL" [alt]="hero.name">
-            }
-        </td>
-        <td>
-            <h3>In</h3>
-            @for (hero of barter().in; track $index) {
-                <img [src]="hero.imageURL" [alt]="hero.name">
-            }
-        </td>
-    </tr>
-    @if(acceptEnabled()) {
-        <tr>
-            <td colspan="2">
-                <button type="button" (click)="acceptOffer()">Accept</button>
+    <thead>
+        <th><h3>In</h3></th>
+        <th><h3>Out</h3></th>
+    </thead>
+    <tbody>
+        <tr class="offer">
+            <td class="box">
+                @for (hero of barter().out; track $index) {
+                    <img [src]="hero.imageURL" [alt]="hero.name">
+                }
+            </td>
+            <td class="box">
+                @for (hero of barter().in; track $index) {
+                    <img [src]="hero.imageURL" [alt]="hero.name">
+                }
             </td>
         </tr>
-    }
+        @if(acceptEnabled()) {
+            <tr>
+                <td class="acceptBtn" colspan="2">
+                    <a routerLink="#" (click)="acceptOffer()">Accept</a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>

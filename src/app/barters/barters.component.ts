@@ -114,6 +114,8 @@ export class BartersComponent implements OnInit {
             });
             result.push({ uid: bid.uid, id: bid.id, in: newIn, out: newOut });
           });
+          if(result.length === 0)
+            result.push(this.defaultEntries);
           this.barters.set(result);
         },
       });
