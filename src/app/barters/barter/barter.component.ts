@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  OnInit,
+  output,
+} from '@angular/core';
 import { HeroNameRes } from '../../model/hero-name-res';
 import { HttpClient } from '@angular/common/http';
 import { SessionService } from '../../session.service';
@@ -30,13 +37,15 @@ export class BarterComponent {
   acceptOffer() {
     const sub = this.httpClient
       .put(
-        'http://locahost:3000/cards/' + this.barter().id,
+        'http://localhost:3000/cards',
         {
           bid: this.barter().id,
           uidIn: this.session.getData()?.uid,
           uidOut: this.barter().uid,
-          in: this.barter().in,
-          out: this.barter().out,
+          offer: {
+            in: this.barter().in.map((e) => e.id),
+            out: this.barter().out.map((e) => e.id),
+          },
         },
         { observe: 'response' }
       )
@@ -47,7 +56,7 @@ export class BarterComponent {
           }
         },
       });
-    
+
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 }
