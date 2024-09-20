@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { UserReq } from '../../model/user-req';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SessionService } from '../../session.service';
 
 @Component({
   selector: 'app-user-edit',
@@ -18,6 +19,7 @@ export class UserEditComponent implements OnInit {
   private httpClient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private session = inject(SessionService);
 
   options = signal<HeroNameRes[] | undefined>(undefined);
   deleteView = signal<boolean>(false);
@@ -44,6 +46,7 @@ export class UserEditComponent implements OnInit {
 
   editUser() {
     const user: UserReq = {
+      id: this.session.getData()?.uid,
       username: this.username,
       email: this.email,
       password: this.password,

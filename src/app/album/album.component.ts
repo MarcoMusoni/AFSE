@@ -87,7 +87,7 @@ export class AlbumComponent implements OnInit {
           if (res.success) {
             let newSession: SessionData = {
               ...this.session.getData(),
-              packs: this.session.getData()?.packs || 1 - 1,
+              packs: (this.session.getData()?.packs || 1) - 1,
             };
             this.packs = newSession.packs || 0;
             this.session.saveData(newSession);
